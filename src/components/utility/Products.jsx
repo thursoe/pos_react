@@ -5,7 +5,7 @@ export default function Products({ pd }) {
   const [search, setSearch] = useState("");
   return (
     <>
-      <div className="flex flex-wrap mt-6">
+      <div className="flex flex-wra44 mt-6">
         {pd.length > 0 &&
           pd
             .filter((item) =>

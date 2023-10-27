@@ -1,16 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getApi } from "../../Api";
 import { TbEdit } from "react-icons/tb";
 import img from "../../../assets/user.jpeg";
 import FadeLoader from "react-spinners/FadeLoader";
+import { useReactToPrint } from "react-to-print";
 import Barcode from "react-barcode";
 
 export default function ProductDetails() {
   const { id } = useParams();
   const [detail, setDetails] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [code, setCode] = useState("");
+
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
   const singleProducts = async () => {
     setLoading(true);
@@ -29,11 +34,20 @@ export default function ProductDetails() {
   return (
     <>
       <div className="flex justify-between">
-        <Link to="/admin/products/all">
-          <button className="hover:opacity-75 lg:px-8 md:px-4 py-2  text-white bg-blue-600 rounded-sm shadow-md border-2 border-blue-600 hover:opacity-75text-white">
-            Back
+        <div>
+          <Link to="/admin/products/all">
+            <button className="hover:opacity-75 lg:px-8 md:px-4 py-2  text-white bg-blue-600 rounded-sm shadow-md border-2 border-blue-600 hover:opacity-75text-white">
+              Back
+            </button>
+          </Link>
+          <button
+            onClick={handlePrint}
+            className="px-8 py-2 text-white font-bold rounded-sm shadow-md ml-6 border-2 border-blue-500 bg-blue-600 hover:opacity-75"
+          >
+            Print Barcode
           </button>
-        </Link>
+        </div>
+
         <Link to={`/admin/products/edit/${id}`}>
           <TbEdit className="text-4xl font-bold text-blue-700 hover:text-slate-700" />
         </Link>
@@ -50,8 +64,10 @@ export default function ProductDetails() {
               src={detail[0].image ? detail[0].image : img}
               className="w-42 h-36 my-4 rounded-md shadow-md mr-8"
             />
-            <Barcode value={detail[0].barcode} className="mx-8" />
-            <div>{code}</div>
+            <div className="mx-8" ref={componentRef}>
+              <h2>{detail[0].name ? detail[0].name.toUpperCase() : ""}</h2>
+              <Barcode value={detail[0].barcode} />
+            </div>
           </div>
 
           <div className="flex justify-between">

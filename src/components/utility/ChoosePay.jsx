@@ -18,6 +18,7 @@ export default function ChoosePay({ totalCost, change, tax, subTotal }) {
   const isHave = useSelector((state) => state.orderCheck);
   const navigate = useNavigate();
   const orderData = useSelector((state) => state.orderData);
+  const user = useSelector((state) => state.loginData);
 
   const dispatch = useDispatch();
   dispatch(add(true));
@@ -50,7 +51,7 @@ export default function ChoosePay({ totalCost, change, tax, subTotal }) {
       });
 
       const data = {
-        user: "64f9a1de68ed006e92668bb0",
+        user: user._id,
         location: "6527b644f124316c798d7702",
         partner: name,
         taxTotal: totalCost,

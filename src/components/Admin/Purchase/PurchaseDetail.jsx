@@ -11,6 +11,7 @@ export default function SaleOrderDetail() {
   const singlePurchaseOrder = async () => {
     let resData = await getApi(`/purchase/${id}`);
     setDetails(resData.data);
+    console.log(resData);
   };
 
   useEffect(() => {
@@ -28,7 +29,7 @@ export default function SaleOrderDetail() {
                 Purchase Order
               </h3>
             </div>
-            <Link to="/admin/saleorders/all">
+            <Link to="/admin/purchase/all">
               <button className="hover:opacity-75 lg:px-8 md:px-4 py-2 text-white bg-blue-600 rounded-md shadow-md border-2 border-blue-600 hover:opacity-75text-white">
                 Back
               </button>
@@ -120,7 +121,7 @@ export default function SaleOrderDetail() {
                           )}
                         </td>
                         <td className="text-center">
-                          {item.product ? item.product.name : ""}
+                          {item.product ? item.product.name : "no have name"}
                         </td>
                         <td className="text-center">{item.tax}</td>
                         <td className="text-center">{item.qty}</td>

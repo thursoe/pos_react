@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { getApi, jsonStringPostData } from "../../Api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
 
 export default function SaleOrderCreate() {
   const [product, setProduct] = useState([]);
@@ -39,6 +40,9 @@ export default function SaleOrderCreate() {
   const [showErrorPayment, setShowErrorPayment] = useState(false);
   const [showErrorDate, setShowErrorDate] = useState("");
 
+  const userData = useSelector((state) => state.loginData);
+  console.log("user data is a", userData);
+
   const createProductApi = async () => {
     if (date === "") {
       setShowErrorDate(true);
@@ -73,7 +77,7 @@ export default function SaleOrderCreate() {
 
     const data = {
       orderDate: date,
-      user: "652656252447453bcc34dde1",
+      user: userData._id,
       partner: partner,
       location: loca,
       lines: saleOrderLines.map((line) => ({
@@ -92,11 +96,9 @@ export default function SaleOrderCreate() {
 
     try {
       let resData = await jsonStringPostData("/sale", data);
-
       if (resData.status) {
         toast(resData.message);
-        toast(resData.message);
-        navigate("/admin/saleorders/all");
+        navigate("/admin/purchase/all");
       }
     } catch (error) {
       toast(resData.message);
@@ -407,11 +409,8 @@ export default function SaleOrderCreate() {
                   (pt) => pt.id === e.target.value
                 );
                 if (selectedProduct) {
-                  salePrice;
                   setUnitPrice(selectedProduct.listPrice);
-                  // setUnitPrice(selectedProduct.salePrice);
                   setTotalPrice(selectedProduct.listPrice);
-
                   setTax(selectedProduct.tax);
                   setItem(selectedProduct);
                 }

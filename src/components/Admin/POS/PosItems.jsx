@@ -66,8 +66,8 @@ export default function PosItems() {
   }, []);
   return (
     <>
-      <div className="flex">
-        <div className="w-full">
+      <div className="flex w-full">
+        <div className="w-2/3">
           <div>
             <div className="flex justify-between items-center">
               <h3 className="text-lg font-semibold">Avaliable Items</h3>
@@ -122,8 +122,7 @@ export default function PosItems() {
               )}
             </ul>
           </div>
-
-          <div className="flex flex-wrap w-full h-screen	overflow-y-scroll my-3 custom-scrollbar">
+          <div className="flex flex-wrap w-full h-screen overflow-y-scroll my-3 custom-scrollbar">
             {products.length > 0 ? (
               products
                 .filter((item) =>
@@ -152,8 +151,7 @@ export default function PosItems() {
             )}
           </div>
         </div>
-
-        <div className="w-96 fixed right-0 p-3  h-screen">
+        <div className=" p-3 h-screen w-1/3">
           <PayBox />
         </div>
       </div>

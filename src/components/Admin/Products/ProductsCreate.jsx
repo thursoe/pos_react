@@ -94,7 +94,7 @@ export default function ProductsCreate() {
       setProfitError(false);
     }
     if (name.trim() === "" || ref.trim() === "") {
-      return; // Don't proceed if required fields are empty
+      return;
     }
 
     const formData = new FormData();
@@ -110,8 +110,8 @@ export default function ProductsCreate() {
     formData.append("purchasePrice", purchasePrice);
     formData.append("tax", tax);
     try {
-      let resData = await FormPostApi("/product",formData,token.accessToken);
-      console.log("data is", resData);
+      let resData = await FormPostApi("/product", formData, token.accessToken);
+
       if (resData.status) {
         navigate("/admin/products/all");
       }
@@ -348,7 +348,7 @@ export default function ProductsCreate() {
                 value={tax}
                 type="number"
                 onChange={(e) => setTax(e.target.value)}
-                className={`w-full px-3 py-1 rounded-md border-b-2 bg-white focus:outline-none my-2`}
+                className={`w-full px-3 py-1 rounded-md border-b-2 bg-white border-slate-600 focus:outline-none my-2`}
                 placeholder="Enter product stock quantity"
               />
             </div>

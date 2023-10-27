@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { getApi, jsonStringPostData } from "../../Api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
 
 export default function SaleOrderCreate() {
   const [product, setProduct] = useState([]);
@@ -39,6 +40,9 @@ export default function SaleOrderCreate() {
   const [showErrorPayment, setShowErrorPayment] = useState(false);
   const [showErrorDate, setShowErrorDate] = useState("");
 
+  const userData = useSelector((state) => state.loginData);
+  console.log("user data is a", userData);
+
   const createProductApi = async () => {
     if (date === "") {
       setShowErrorDate(true);
@@ -73,7 +77,7 @@ export default function SaleOrderCreate() {
 
     const data = {
       orderDate: date,
-      user: "652656252447453bcc34dde1",
+      user: userData._id,
       partner: partner,
       location: loca,
       lines: saleOrderLines.map((line) => ({
@@ -196,7 +200,7 @@ export default function SaleOrderCreate() {
         >
           Save
         </button>
-        <Link to="/admin/saleorders/all">
+        <Link to="/admin/purchase/all">
           <button className="px-8 py-2 text-white font-bold rounded-sm shadow-md ml-6 border-2 border-blue-500 bg-blue-600 hover:opacity-75">
             Discard
           </button>

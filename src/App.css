@@ -1,13 +1,15 @@
-body{
+body {
   margin: 0;
-  padding: 0                                                                                                ;
+  padding: 0;
+}
+@page {
+  size: 58mm 297mm;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-  width: 5px; 
+  width: 5px;
 }
 
-
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: gainsboro; 
+  background-color: gainsboro;
 }

@@ -11,18 +11,8 @@ import { useSelector } from "react-redux";
 
 export default function Admin() {
   const location = useLocation();
-  const [usr, setUsr] = useState(null);
 
   const user = useSelector((state) => state.loginData);
-
-  // const getUser = async () => {
-  //   let resData = await getApi(`/user/${user[0]._id}`);
-  //   setUsr(resData.data);
-  // };
-
-  // useEffect(() => {
-  //   getUser();
-  // }, []);
 
   return (
     <>
@@ -258,11 +248,10 @@ export default function Admin() {
           </div>
         </div>
       </div>
-      <div
-        className={`mt-4 mx-auto ml-52 p-4 ${
-          location.pathname === "/admin/pos/all" ? "w-3/5" : ""
-        }`}
-      >
+      {/* className={`mt-4 mx-auto ml-52 p-4 ${
+          location.pathname === "/admin/pos/all" ? "w-9/12" : ""
+        }`} */}
+      <div className={`mt-4 mx-auto ml-52 p-4`}>
         <Outlet />
       </div>
     </>

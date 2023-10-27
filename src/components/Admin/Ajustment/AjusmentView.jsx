@@ -1,52 +1,72 @@
 import React, { useRef, useState } from "react";
 
-import { BiSolidEdit, BiImport, BiExport } from "react-icons/bi";
+import { BiImport, BiExport } from "react-icons/bi";
 
 export default function AjusmentView() {
   const [loading, setLoading] = useState(false);
 
   const [importFile, setimportFile] = useState("");
-  const [ExportFile, setExportFile] = useState("");
 
   const importRef = useRef(null);
-  const exportRef = useRef(null);
 
-  const handleFileExportClick = () => {
-    exportRef.current.click();
-  };
-  const handleFileExportChange = (event) => {
-    const selectedFile = event.target.files[0];
-    setExportFile(selectedFile);
+  const receiveExcel = async () => {
+    try {
+      const response = await fetch("http://3.0.102.114/stock/export-excel");
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const filename =
+          response.headers.get("content-disposition") || "exported-data.xlsx";
+
+        const url = window.URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+
+        a.click();
+
+        // Clean up
+        window.URL.revokeObjectURL(url);
+      } else {
+        console.error("Failed to download the file. Server returned an error.");
+      }
+    } catch (error) {
+      console.error("An error occurred while downloading the file:", error);
+    }
   };
 
   const handleFileImportClick = () => {
     importRef.current.click();
   };
 
-  const handleFileImportChange = (event) => {
+  const handleFileImportChange = async (event) => {
     const selectedFile = event.target.files[0];
     setimportFile(selectedFile);
+    const formData = new FormData();
+    formData.append("excel", importFile);
+    const sendExcelApi = await FormPostApi("/product/import-excel", formData);
+    s;
+    setLoading(true);
+    toast(sendExcelApi.message);
+    if (sendExcelApi.status) {
+      setLoading(false);
+      getCategorysApi();
+    }
   };
   return (
     <>
       <div className="flex">
         <div
-          onClick={handleFileExportClick}
-          className="rounded-sm shadow-sm flex items-center bg-blue-600 hover:opacity-75 text-md text-white font-bold px-6 py-2"
+          onClick={receiveExcel}
+          className="rounded-sm mx-3 shadow-sm flex items-center bg-blue-600 hover:opacity-75 text-md text-white font-bold px-6 py-2"
         >
-          <input
-            type="file"
-            style={{ display: "none" }}
-            ref={exportRef}
-            onChange={handleFileExportChange}
-          />
-
-          <h4> Excel </h4>
-          <BiImport className="text-xl ml-2" />
+          <BiImport className="text-xl mx-2" />
+          <h4> Export Excel</h4>
         </div>
         <div
           onClick={handleFileImportClick}
-          className="rounded-sm mx-3 shadow-sm flex items-center bg-blue-600 hover:opacity-75 text-md text-white font-bold px-6 py-2"
+          className="rounded-sm shadow-sm flex items-center bg-blue-600 hover:opacity-75 text-md text-white font-bold px-6 py-2"
         >
           <input
             type="file"
@@ -54,8 +74,8 @@ export default function AjusmentView() {
             ref={importRef}
             onChange={handleFileImportChange}
           />
-          <h4> Excel </h4>
-          <BiExport className="text-xl ml-2" />
+          <h4>Import Excel </h4>
+          <BiExport className="text-xl mx-2" />
         </div>
       </div>
 

@@ -67,7 +67,7 @@ export default function ProductsEdit() {
       formData.append("category", category);
     }
     if (price) {
-      formData.append("listPrice", price);
+      formData.append("salePrice", price);
     }
     if (file) {
       formData.append("image", file);
@@ -78,13 +78,16 @@ export default function ProductsEdit() {
     if (profit) {
       formData.append("marginProfit", profit);
     }
-
     let resData = await FormPathApi(
       `/product/${id}`,
       formData,
       token.accessToken
     );
-    navigate("/admin/products/all");
+
+    console.log("edit is a", resData);
+    if (resData.status) {
+      navigate("/admin/products/all");
+    }
   };
 
   const handleSubmit = (e) => {

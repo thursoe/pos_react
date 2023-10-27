@@ -76,14 +76,14 @@ export default function PayBox({ onContinueToPay }) {
             />
           )}
 
-          <div className="flex justify-between p-2">
+          <div className="flex p-2">
             <h3 className="font-semibold text-xl w-full">Current Order</h3>
-            <span
-              className="text-lg w-28 hover:text-red-700 font-semibold"
+            <h3
+              className="text-lg w-40 text-end hover:text-red-700 font-semibold"
               onClick={() => dispatch(removeAllItems())}
             >
               Clear All
-            </span>
+            </h3>
           </div>
           <div className="h-96 overflow-y-scroll my-3 custom-scrollbar">
             {product.length > 0 ? (

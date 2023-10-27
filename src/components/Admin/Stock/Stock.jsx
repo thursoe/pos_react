@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getApi } from "../../Api";
 import FadeLoader from "react-spinners/FadeLoader";
-import { BiExport } from "react-icons/bi";
+import { BiImport } from "react-icons/bi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
@@ -30,21 +30,30 @@ export default function Stock() {
     }
   };
 
-  const handleFileImportClick = () => {
-    importRef.current.click();
-  };
-  const handleFileImportChange = async (event) => {
-    const selectedFile = event.target.files[0];
-    setimportFile(selectedFile);
-    const formData = new FormData();
-    formData.append("excel", importFile);
-    const sendExcelApi = await FormPostApi("/product/import-excel", formData);
-    s;
-    setLoading(true);
-    toast(sendExcelApi.message);
-    if (sendExcelApi.status) {
-      setLoading(false);
-      stockApi();
+  const receiveExcel = async () => {
+    try {
+      const response = await fetch("http://3.0.102.114/stock/export-excel");
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const filename =
+          response.headers.get("content-disposition") || "exported-data.xlsx";
+
+        const url = window.URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+
+        a.click();
+
+        // Clean up
+        window.URL.revokeObjectURL(url);
+      } else {
+        console.error("Failed to download the file. Server returned an error.");
+      }
+    } catch (error) {
+      console.error("An error occurred while downloading the file:", error);
     }
   };
 
@@ -68,17 +77,11 @@ export default function Stock() {
       <div className="flex">
         <div className="flex w-full justify-between items-center">
           <div
-            onClick={handleFileImportClick}
-            className="rounded-sm shadow-sm flex items-center bg-blue-600 hover:opacity-75 text-md text-white font-bold px-6 py-2"
+            onClick={receiveExcel}
+            className="rounded-sm mx-3 shadow-sm flex items-center bg-blue-600 hover:opacity-75 text-md text-white font-bold px-6 py-2"
           >
-            <input
-              type="file"
-              style={{ display: "none" }}
-              ref={importRef}
-              onChange={handleFileImportChange}
-            />
-            <h4>Import Excel </h4>
-            <BiExport className="text-xl mx-2" />
+            <BiImport className="text-xl mx-2" />
+            <h4> Export Excel</h4>
           </div>
 
           <div className="w-96 md:w-72 relative">
@@ -115,8 +118,7 @@ export default function Stock() {
               .map((stk) => (
                 <tr
                   key={stk.id}
-                  className="hover:bg-blue-100 odd:bg-white even:bg-slate-200 mt-3"
-                  onClick={() => navigate(`/admin/stock/detail/${stk.id}`)}
+                  className="odd:bg-white even:bg-slate-200 mt-3"
                 >
                   <td className="py-3">{(count += 1)}</td>
                   <td className="py-3">

@@ -138,7 +138,9 @@ export default function SaleOrderAll() {
                     </td>
 
                     <td className="lg:px-4 py-2 text-center">
-                      {sale.user && sale.user._id ? sale.user._id : "no have"}
+                      {sale.user && sale.user.username
+                        ? sale.user.username
+                        : "no have"}
                     </td>
                     <td className="lg:px-4 py-2 text-center">
                       {sale.partner.name ? sale.partner.name : "no have"}

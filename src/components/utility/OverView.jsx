@@ -109,7 +109,7 @@ export default function OverView() {
               </BarChart>
             </div>
 
-            <div style={{ width: 800, height: 400 }} className="mt-8">
+            <div style={{ width: 800, height: 400 }} className="mt-8 ml-4">
               <h3 className="text-slate-500 font-semibold text-lg mb-6">
                 Monthly Profit
               </h3>
@@ -176,10 +176,12 @@ export default function OverView() {
                 Today Sale
               </h5>
             </div>
-            <div className="mt-8">
-              <h3 className="mt-4 font-bold text-xl">Most Of Sales Products</h3>
+            <div className="mt-20 flex flex-col justify-center ">
+              <h3 className="mt-4 font-bold text-center text-xl">
+                Most Of Sales Products
+              </h3>
 
-              <PieChart width={400} height={200} className="mt-8">
+              <PieChart width={400} height={200} className="mt-20 mx-auto">
                 <Pie
                   data={data}
                   dataKey="total"
@@ -200,27 +202,6 @@ export default function OverView() {
                 />
               </PieChart>
             </div>
-            <ComposedChart
-              layout="vertical"
-              width={400}
-              height={350}
-              data={formattedSaleData}
-              margin={{
-                top: 20,
-                right: 20,
-                bottom: 20,
-                left: 70,
-              }}
-            >
-              <CartesianGrid stroke="#f5f5f5" />
-              <XAxis type="createdAt" />
-              <YAxis dataKey="total" type="category" />
-              <Tooltip />
-              <Legend />
-              <Area dataKey="total" fill="#8884d8" stroke="#8884d8" />
-              <Bar dataKey="total" barSize={20} fill="#413ea0" />
-              <Line dataKey="" stroke="#ff7300" />
-            </ComposedChart>
           </div>
         </div>
       ) : (

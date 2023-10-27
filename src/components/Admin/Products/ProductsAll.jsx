@@ -93,7 +93,6 @@ export default function ProductsAll() {
     const formData = new FormData();
     formData.append("excel", importFile);
     const sendExcelApi = await FormPostApi("/product/import-excel", formData);
-    s;
     setLoading(true);
     toast(sendExcelApi.message);
     if (sendExcelApi.status) {
@@ -238,7 +237,7 @@ export default function ProductsAll() {
 
                     <td className="lg:px-4 py-2 text-center">{product.ref}</td>
                     <td className="lg:px-4 py-2 text-center">
-                      {product.expiredAt.toLocaleString()}
+                      {product.expiredAt}
                     </td>
                     <td className="lg:px-4 py-2 text-center overflow-hidden whitespace-nowrap">
                       {product.description &&
